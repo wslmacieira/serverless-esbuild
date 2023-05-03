@@ -1,6 +1,6 @@
 import axios from "axios"
 import runPromises from "./services/run-promises"
-import { processRequestAsStream } from "./services/process-requests"
+import { processRequestAsStream } from "./services/process-streams"
 
 export const handler = async() => {
   // const url = 'https://jsonplaceholder.typicode.com/todos'

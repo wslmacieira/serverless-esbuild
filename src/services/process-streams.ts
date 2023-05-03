@@ -1,6 +1,6 @@
 import { Readable, Transform } from "stream"
 import { pipeline } from "stream/promises"
-import { bufferingObjectStream } from "./buffering"
+import { bufferingObjectStream } from "../utils/buffering"
 import axios, { AxiosResponse } from "axios"
 
 axios.interceptors.response.use((value) => 
