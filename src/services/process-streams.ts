@@ -17,7 +17,7 @@ export const processRequestAsStream = async () => {
   await pipeline(
     stream,
     bufferingObjectStream(20),
-    promisesAxiosRequest,
+    promisesAxiosRequest(url),
     executeAxiosRequest,
     async function* (source) {
       for await (const item of source) {
@@ -36,7 +36,7 @@ async function* selectDataAsStream(data: any) {
   for (const item of data) yield item
 }
 
-const promisesAxiosRequest = new Transform({
+const promisesAxiosRequest = (url: string) => new Transform({
   objectMode: true,
   transform(chunks, enc, cb) {
     const promises = chunks.map((chunk: any) => axios.get(`${url}/${chunk}`)
