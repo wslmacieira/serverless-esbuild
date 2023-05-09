@@ -1,39 +1,31 @@
-import axios from "axios"
-import runPromises from "./services/run-promises"
-import { processRequestAsStream } from "./services/process-streams"
-import jwt from 'jsonwebtoken'
-
-let cachedToken: any;
+// import { processRequestAsStream } from './services/process-streams'
+import runBatchPromises from './services/run-batch-promises'
 
 export const handler = async () => {
-  console.log('>>> JWT Cached: ', cachedToken);
-  getToken()
 
+  // await processRequestAsStream('teste')
 
-  // const response = await processRequestAsStream()
+  // const response = await runBatchPromises('segmento-1', 20)
+
+  const promises = await Promise.all([
+    runBatchPromises('segmento-1'),
+    // runBatchPromises('segmento-2', 50),
+    // runBatchPromises('segmento-3', 50),
+    // runBatchPromises('segmento-4', 50),
+    // runBatchPromises('segmento-5', 50)
+  ])
+
 
   return {
     statusCode: 200,
     body: JSON.stringify({
       message: 'hello lambda!',
-      // response
+      promises
+      // response1,
+      // response2,
+      // response3,
+      // response4,
+      // response5,
     })
   }
-}
-
-function getToken() {
-  if (cachedToken) {
-    const decode = JSON.parse(Buffer.from(cachedToken.access_token?.split('.')[1], 'base64').toString())
-    if (decode.exp * 1000 > new Date().getTime()) {
-      console.log('>>> JWT Cached: ', cachedToken);
-      return cachedToken
-    }
-    console.log('Token Expired');
-  }
-  const access_token = jwt.sign({}, 'secret', { expiresIn: 10 })
-
-  cachedToken = {
-    access_token,
-  }
-  console.log('>>> JWT Service: ', cachedToken);
 }

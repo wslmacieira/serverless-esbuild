@@ -5,25 +5,25 @@ import jwt from 'jsonwebtoken'
 let cachedToken: any;
 const server = http.createServer(async(req, res) => {
 
-  if (req.url === '/login') {
-    console.log('>>> JWT Cached: ', cachedToken);
-    const token = generateToken()
+  // if (req.url === '/login') {
+  //   console.log('>>> JWT Cached: ', cachedToken);
+  //   const token = generateToken()
   
-    process.env.token = token.access_token
+  //   process.env.token = token.access_token
   
-    return res.writeHead(200).end(JSON.stringify({ token }))
-  }
+  //   return res.writeHead(200).end(JSON.stringify({ token }))
+  // }
 
-  const decode = JSON.parse(Buffer.from(process.env.token!.split('.')[1], 'base64').toString());
-  console.log(decode)
+  // const decode = JSON.parse(Buffer.from(process.env.token!.split('.')[1], 'base64').toString());
+  // console.log(decode)
 
-    if (decode.exp * 1000 < new Date().getTime()) {
-      console.log('Time Expired');
-  }
+  //   if (decode.exp * 1000 < new Date().getTime()) {
+  //     console.log('Time Expired');
+  // }
 
   return res.writeHead(200).end(JSON.stringify({ 
     message: 'hello',
-    token: process.env.token
+    // token: process.env.token
   }))
 })
 
@@ -45,6 +45,6 @@ function generateToken() {
   return cachedToken
 }
 
-server.listen(3000)
+server.listen(3001)
 
 server.on('listening', () => console.log('Server is running!'))
